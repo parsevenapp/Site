@@ -1,145 +1,139 @@
-const BIN_ID = "695aba4543b1c97be919090f";
-const MASTER_KEY = "$2a$10$WpZMbfrUQIsZdCSyJ9yOJOcPSs7TCJ0L2i8/iXCThdK1gN4BbP95W";
-const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
-let db = { products: [], footer: {} };
-let currentView = 'grid';
-
-async function init() {
-    createCategoryButtons();
-    await loadData();
+* { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+body { 
+    background-color: #050505; 
+    font-family: 'Tahoma', sans-serif; 
+    color: #fff; 
+    direction: rtl;
 }
 
-// دریافت اطلاعات از سرور
-async function loadData() {
-    const container = document.getElementById('product-container');
-    container.innerHTML = '<p style="color:#0ff">در حال بارگذاری اطلاعات از سرور...</p>';
-    
-    try {
-        const res = await fetch(`${API_URL}/latest`, {
-            headers: { "X-Master-Key": MASTER_KEY }
-        });
-        const data = await res.json();
-        db = data.record;
-        render();
-        updateFooterUI();
-    } catch (err) {
-        console.error("خطا در دریافت:", err);
-        container.innerHTML = '<p style="color:red">خطا در اتصال به دیتابیس!</p>';
+/* هدر نئونی */
+.neon-header-box {
+    text-align: center;
+    padding: 30px 10px;
+    border-bottom: 2px solid #0ff;
+    box-shadow: 0 0 15px #0ff;
+}
+.flicker-text {
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* سایز متن با اندازه صفحه تغییر میکنه */
+    color: #fff;
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    animation: flicker 1.5s infinite alternate;
+}
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* بخش جستجو */
+.control-bar {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+#searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    background: transparent;
+    border: 2px solid #b026ff;
+    border-radius: 25px;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 0 10px #b026ff;
+}
+
+/* چیدمان اصلی (فلکس‌باکس ریسپانسیو) */
+.main-wrapper {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    flex-direction: row; /* در دسکتاپ افقی */
+}
+
+/* سایدبار دکمه‌ها */
+.sidebar-nav {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-neon {
+    width: 100%;
+    padding: 12px;
+    background: #111;
+    border: 1px solid #0ff;
+    color: #0ff;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+.btn-neon:hover { background: #0ff; color: #000; box-shadow: 0 0 15px #0ff; }
+
+/* کارت محصولات */
+.content-area { flex: 1; }
+.grid-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.product-card:hover { border-color: #b026ff; box-shadow: 0 0 10px #b026ff; }
+.product-img-box img { width: 100%; height: 200px; object-fit: cover; }
+.product-info-summary { padding: 15px; text-align: center; }
+.price-tag { color: #0ff; font-weight: bold; font-size: 1.1rem; }
+
+/* بخش کشویی */
+.product-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s ease-out;
+    background: #0a0a0a;
+    padding: 0 15px;
+    font-size: 0.9rem;
+}
+.product-card.active .product-details {
+    max-height: 200px;
+    padding: 15px;
+    border-top: 1px solid #333;
+}
+
+/* فوتر */
+.neon-footer {
+    border-top: 1px solid #333;
+    padding: 30px;
+    text-align: center;
+    margin-top: 40px;
+}
+.social-link { color: #b026ff; text-decoration: none; margin: 0 10px; }
+
+/* === بهینه‌سازی برای گوشی (Mobile Optimization) === */
+@media (max-width: 768px) {
+    .main-wrapper {
+        flex-direction: column; /* تغییر چیدمان به عمودی در گوشی */
+    }
+    .sidebar-nav {
+        width: 100%;
+        flex-direction: row; /* دکمه‌های کالا در گوشی کنار هم باشن */
+        overflow-x: auto; /* اگر زیاد شدن کاربر ورق بزنه */
+        padding-bottom: 10px;
+        white-space: nowrap;
+    }
+    .btn-neon {
+        width: auto;
+        padding: 10px 20px;
+    }
+    .grid-display {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* در گوشی کارت‌ها کمی کوچکتر بشن تا ۲تا کنار هم جا بشن */
+        gap: 15px;
     }
 }
-
-// ذخیره اطلاعات در سرور
-async function saveData() {
-    try {
-        await fetch(API_URL, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": MASTER_KEY
-            },
-            body: JSON.stringify(db)
-        });
-        render();
-        updateFooterUI();
-    } catch (err) {
-        alert("خطا در ذخیره‌سازی آنلاین!");
-    }
-}
-
-function render(filterList = null) {
-    const list = filterList || db.products;
-    const container = document.getElementById('product-container');
-    container.className = currentView === 'grid' ? 'grid-display' : 'list-display';
-    container.innerHTML = '';
-
-    list.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        // عملکرد کشویی با کلیک
-        card.onclick = (e) => {
-            if(e.target.tagName !== 'BUTTON') card.classList.toggle('active');
-        };
-
-        card.innerHTML = `
-            <div class="product-img-box">
-                <img src="${item.img || 'https://via.placeholder.com/250x200/111/0ff?text=GALLERY'}" alt="${item.name}">
-            </div>
-            <div class="product-info-summary">
-                <h3>${item.name}</h3>
-                <span class="price-tag">${item.price} تومان</span>
-            </div>
-            <div class="product-details">
-                <p><strong>مشخصات:</strong> ${item.specs || 'توضیحاتی ثبت نشده'}</p>
-                <p><strong>دسته:</strong> ${item.cat}</p>
-                ${window.isAdmin ? `<button onclick="deleteProduct(${index})" class="del-btn">حذف این کالا</button>` : ''}
-            </div>
-        `;
-        container.appendChild(card);
-    });
-}
-
-async function adminPanel() {
-    const pass = prompt("رمز مدیر:");
-    if (pass !== "1234") return;
-    window.isAdmin = true;
-
-    const mode = prompt("1: اضافه کردن محصول | 2: ویرایش فوتر");
-    if (mode === "1") {
-        const name = prompt("نام محصول:");
-        const price = prompt("قیمت:");
-        const specs = prompt("مشخصات (کشویی):");
-        const cat = prompt("دسته (مثلا: کالای ۱):");
-        const img = prompt("لینک عکس:");
-
-        if(name && price && cat) {
-            db.products.push({ name, price, specs, cat, img });
-            await saveData();
-            alert("محصول آنلاین ذخیره شد!");
-        }
-    } else if (mode === "2") {
-        db.footer.addr = prompt("آدرس:", db.footer.addr);
-        db.footer.phone = prompt("تلفن:", db.footer.phone);
-        db.footer.insta = prompt("لینک اینستاگرام:", db.footer.insta);
-        db.footer.tele = prompt("لینک تلگرام:", db.footer.tele);
-        await saveData();
-    }
-}
-
-async function deleteProduct(index) {
-    if(confirm("حذف شود؟")) {
-        db.products.splice(index, 1);
-        await saveData();
-    }
-}
-
-function toggleView() {
-    currentView = (currentView === 'grid') ? 'list' : 'grid';
-    document.getElementById('viewToggle').innerText = `حالت نمایش: ${currentView === 'grid' ? 'گرید' : 'لیست'}`;
-    render();
-}
-
-function updateFooterUI() {
-    if(db.footer.addr) document.getElementById('f-addr').innerText = "آدرس: " + db.footer.addr;
-    if(db.footer.phone) document.getElementById('f-phone').innerText = "تلفن: " + db.footer.phone;
-    if(db.footer.insta) document.getElementById('f-insta').href = db.footer.insta;
-    if(db.footer.tele) document.getElementById('f-tele').href = db.footer.tele;
-}
-
-function createCategoryButtons() {
-    const btnContainer = document.getElementById('cat-buttons');
-    for (let i = 1; i <= 10; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'btn-neon';
-        btn.innerText = `کالای ${i}`;
-        btn.onclick = () => render(db.products.filter(p => p.cat === `کالای ${i}`));
-        btnContainer.appendChild(btn);
-    }
-}
-
-function doSearch() {
-    const val = document.getElementById('searchInput').value.trim().toLowerCase();
-    render(db.products.filter(p => p.name.toLowerCase().includes(val)));
-}
-
-init();
