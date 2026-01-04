@@ -3,47 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری آنلاین</title>
-    <link rel="stylesheet" href="style.css">
+    <title>گالری</title>
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
 
-    <div class="welcome-banner">
-        <h1 class="animate-text">به سایت گالری خوش آمدید</h1>
+    <div class="neon-header-box">
+        <h1 class="flicker-text">به سایت گالری خوش آمدید</h1>
     </div>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="جستجوی محصول مورد نظر..." onkeyup="searchProduct()">
+    <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="جستجوی نام محصول..." onkeyup="doSearch()">
     </div>
 
-    <div class="main-container">
-        <aside class="sidebar">
-            <h2>دسته‌بندی‌ها</h2>
-            <div id="category-list"></div>
+    <div class="list-title">
+        <h2>لیست محصولات</h2>
+    </div>
+
+    <div class="main-wrapper">
+        <aside class="sidebar-nav">
+            <div id="cat-buttons"></div>
         </aside>
 
-        <main class="content">
-            <h2 id="category-title">همه محصولات</h2>
-            <div id="product-grid" class="product-grid"></div>
+        <main class="content-area">
+            <div id="product-container" class="grid-display"></div>
         </main>
     </div>
 
-    <footer>
-        <div class="footer-info">
-            <div class="footer-section">
-                <h4>ارتباط با ما</h4>
-                <p>آدرس: تهران، بازار بزرگ</p>
-                <p>تلفن: ۰۲۱۱۲۳۴۵۶۷۸</p>
-            </div>
-            <div class="footer-section">
-                <h4>شبکه‌های اجتماعی</h4>
-                <div class="social-links">
-                    <a href="#">اینستاگرام</a> | <a href="#">تلگرام</a>
-                </div>
-            </div>
-        </div>
+    <footer class="neon-footer">
+        <div class="footer-item">آدرس: * * * * *</div>
+        <div class="footer-item">تلفن: * * * * *</div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
