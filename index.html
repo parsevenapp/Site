@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه حرفه‌ای</title>
+    <title>گالری آنلاین</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="logo">فروشگاه آنلاین ما</div>
-        <nav class="top-nav">
-            <span>ارسال رایگان برای خریدهای بالای ۵۰۰ تومن</span>
-        </nav>
-    </header>
+    <div class="welcome-banner">
+        <h1 class="animate-text">به سایت گالری خوش آمدید</h1>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="جستجوی محصول مورد نظر..." onkeyup="searchProduct()">
+    </div>
 
     <div class="main-container">
         <aside class="sidebar">
-            <h2>رده‌بندی کالاها</h2>
+            <h2>دسته‌بندی‌ها</h2>
             <div id="category-list"></div>
         </aside>
 
         <main class="content">
-            <h2 id="category-title">لطفاً یک دسته انتخاب کنید</h2>
-            <hr style="margin: 15px 0; opacity: 0.1;">
+            <h2 id="category-title">همه محصولات</h2>
             <div id="product-grid" class="product-grid"></div>
         </main>
     </div>
@@ -31,17 +31,14 @@
     <footer>
         <div class="footer-info">
             <div class="footer-section">
-                <h4>آدرس مغازه</h4>
-                <p>تهران، خیابان اصلی، پلاک ۱۲۳</p>
-            </div>
-            <div class="footer-section">
-                <h4>شماره تماس</h4>
-                <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
+                <h4>ارتباط با ما</h4>
+                <p>آدرس: تهران، بازار بزرگ</p>
+                <p>تلفن: ۰۲۱۱۲۳۴۵۶۷۸</p>
             </div>
             <div class="footer-section">
                 <h4>شبکه‌های اجتماعی</h4>
                 <div class="social-links">
-                    <a href="#">اینستاگرام</a> | <a href="#">تلگرام</a> | <a href="#">واتس‌اپ</a>
+                    <a href="#">اینستاگرام</a> | <a href="#">تلگرام</a>
                 </div>
             </div>
         </div>
