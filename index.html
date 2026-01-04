@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری حرفه‌ای</title>
-    <link rel="stylesheet" href="style.css?v=6.0">
+    <title>گالری حرفه‌ای نئون</title>
+    <link rel="stylesheet" href="style.css?v=10.0">
 </head>
 <body>
     <div class="neon-header-box">
@@ -12,13 +12,9 @@
     </div>
 
     <div class="control-bar">
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="جستجوی محصول..." onkeyup="doSearch()">
-        </div>
-        <button id="viewToggle" class="toggle-btn" onclick="toggleView()">حالت نمایش: گرید</button>
+        <input type="text" id="searchInput" placeholder="جستجوی محصول..." onkeyup="doSearch()">
+        <button id="viewToggle" class="toggle-btn" onclick="toggleView()">تغییر حالت نمایش</button>
     </div>
-
-    <div class="list-title"><h2>لیست محصولات</h2></div>
 
     <div class="main-wrapper">
         <aside class="sidebar-nav">
@@ -29,10 +25,28 @@
         </main>
     </div>
 
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdmin()">&times;</span>
+            <h2 style="color:#0ff; margin-bottom:15px;">افزودن محصول جدید</h2>
+            <input type="text" id="p-name" placeholder="نام محصول">
+            <input type="text" id="p-price" placeholder="قیمت (تومان)">
+            <textarea id="p-specs" placeholder="مشخصات و توضیحات..."></textarea>
+            <input type="text" id="p-cat" placeholder="دسته (مثلاً: کالای ۱)">
+            
+            <div class="upload-section">
+                <button class="btn-neon" onclick="document.getElementById('p-file').click()">📸 انتخاب عکس</button>
+                <input type="file" id="p-file" style="display:none" accept="image/*">
+                <p id="uploadStatus" style="font-size:12px; margin-top:5px; color:#0ff;"></p>
+            </div>
+            <button class="btn-neon" style="background:#b026ff; border-color:#b026ff; color:#fff; width:100%;" onclick="submitProduct()">🚀 ثبت و انتشار آنلاین</button>
+        </div>
+    </div>
+
     <footer class="neon-footer">
         <div id="footer-content">
-            <div class="footer-item" id="f-addr">آدرس: * * * * *</div>
-            <div class="footer-item" id="f-phone">تلفن: * * * * *</div>
+            <div class="footer-item" id="f-addr">آدرس: در حال بارگذاری...</div>
+            <div class="footer-item" id="f-phone">تلفن: در حال بارگذاری...</div>
             <div class="footer-socials">
                 <a href="#" id="f-insta" class="social-link">اینستاگرام</a>
                 <span class="divider">|</span>
@@ -41,6 +55,7 @@
         </div>
         <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت سایت</button>
     </footer>
-    <script src="script.js?v=6.0"></script>
+
+    <script src="script.js?v=10.0"></script>
 </body>
 </html>
