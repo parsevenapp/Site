@@ -1,82 +1,80 @@
-* { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-body { 
-    background-color: #050505; 
-    font-family: 'Tahoma', sans-serif; 
-    color: #fff; 
-    overflow-x: hidden;
+/* ... استایل‌های قبلی ثابت هستند ... */
+
+.control-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #0a0a0a;
 }
 
-/* هدر */
-.neon-header-box {
-    text-align: center;
-    padding: 40px 20px;
-    background: #000;
-    border-bottom: 2px solid #0ff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+.toggle-btn {
+    background: transparent;
+    border: 1px solid #b026ff;
+    color: #b026ff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
 }
-.flicker-text {
-    font-size: 32px;
-    color: #fff;
-    text-shadow: 0 0 10px #0ff, 0 0 40px #0ff;
-    animation: flicker 1.5s infinite alternate;
-}
-@keyframes flicker {
-    0%, 100% { opacity: 1; text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
-    50% { opacity: 0.8; text-shadow: none; }
+.toggle-btn:hover { background: #b026ff; color: #fff; }
+
+/* حالت گرید */
+.grid-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-/* سرچ */
-.search-wrapper { padding: 30px; text-align: center; background: #0a0a0a; }
-#searchInput {
-    width: 100%; max-width: 500px; padding: 15px;
-    background: transparent; border: 2px solid #b026ff; border-radius: 50px;
-    color: #fff; font-size: 16px; text-align: center;
-    box-shadow: 0 0 10px #b026ff;
+/* حالت لیست */
+.list-display {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-
-/* لیست */
-.list-title { text-align: center; margin-top: 20px; }
-.list-title h2 { border-bottom: 3px solid #0ff; padding-bottom: 10px; color: #0ff; }
-
-/* بدنه */
-.main-wrapper { display: flex; padding: 20px; gap: 20px; min-height: 500px; }
-.sidebar-nav { width: 200px; flex-shrink: 0; }
-.content-area { flex: 1; }
-.grid-display { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
-
-/* دکمه‌ها */
-.btn-neon {
-    width: 100%; padding: 15px; margin-bottom: 12px;
-    background: #111; border: 1px solid #0ff; color: #0ff;
-    cursor: pointer; transition: 0.3s; font-weight: bold;
-}
-.btn-neon:hover { background: #0ff; color: #000; box-shadow: 0 0 20px #0ff; }
 
 /* کارت محصول */
 .product-card {
-    background: #111; border: 1px solid #333; border-radius: 10px; padding: 15px;
-    text-align: center; transition: 0.3s;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
 }
-.product-card:hover { border-color: #b026ff; box-shadow: 0 0 15px #b026ff; }
-.product-img { width: 100%; height: 180px; background: #222; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #555; border-radius: 5px;} 
-.product-card h3 { color: #fff; margin-bottom: 10px; }
-.product-card .price { color: #0ff; font-weight: bold; font-size: 20px; }
-.product-card .specs { color: #aaa; font-size: 12px; margin-bottom: 10px; }
 
-/* فوتر جدید */
-.neon-footer {
-    margin-top: 50px; padding: 40px; background: #080808;
-    border-top: 1px solid #333; text-align: center; color: #aaa; position: relative;
+.product-img-box {
+    width: 100%;
+    height: 200px;
+    background: #222;
 }
-.footer-item { margin: 15px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
-.footer-socials { margin-top: 20px; font-size: 18px; }
-.social-link { color: #b026ff; text-decoration: none; margin: 0 10px; transition: 0.3s; text-shadow: 0 0 5px #b026ff; }
-.social-link:hover { color: #fff; text-shadow: 0 0 15px #b026ff; }
-.divider { color: #555; }
+.product-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-/* دکمه مدیر */
-.admin-btn {
-    background: transparent; border: 1px solid #333; color: #333;
-    padding: 5px 10px; font-size: 12px; margin-top: 30px; cursor: pointer; border-radius: 5px;
+.product-info-summary {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #222;
 }
-.admin-btn:hover { border-color: #555; color: #555; }
+
+/* بخش کشویی مشخصات */
+.product-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    background: #080808;
+    padding: 0 15px;
+    text-align: right;
+}
+.product-card.active .product-details {
+    max-height: 300px; /* باز شدن کشویی */
+    padding: 15px;
+    border-top: 1px dashed #333;
+}
+
+.price-tag { color: #0ff; font-weight: bold; font-size: 1.2rem; display: block; margin-top: 10px; }
+
+/* در حالت لیست عکس کوچکتر می‌شود */
+.list-display .product-card { display: flex; flex-wrap: wrap; }
+.list-display .product-img-box { width: 150px; height: 150px; }
+.list-display .product-info-summary { flex: 1; text-align: right; }
