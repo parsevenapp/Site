@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گالری</title>
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
 
@@ -31,10 +31,19 @@
     </div>
 
     <footer class="neon-footer">
-        <div class="footer-item">آدرس: * * * * *</div>
-        <div class="footer-item">تلفن: * * * * *</div>
+        <div id="footer-content">
+            <div class="footer-item" id="f-addr">آدرس: * * * * *</div>
+            <div class="footer-item" id="f-phone">تلفن: * * * * *</div>
+            <div class="footer-socials">
+                <a href="#" id="f-insta" class="social-link">اینستاگرام</a>
+                <span class="divider">|</span>
+                <a href="#" id="f-tele" class="social-link">تلگرام</a>
+            </div>
+        </div>
+        
+        <button onclick="adminEdit()" class="admin-btn">⚙️ ویرایش فوتر</button>
     </footer>
 
-    <script src="script.js?v=3.0"></script>
+    <script src="script.js?v=4.0"></script>
 </body>
 </html>
