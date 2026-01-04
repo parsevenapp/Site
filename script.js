@@ -1,51 +1,69 @@
-const allProducts = [
-    { id: 1, cat: "کالای ۱", name: "محصول طلایی", price: "۵۰۰,۰۰۰", img: "https://via.placeholder.com/150" },
-    { id: 2, cat: "کالای ۱", name: "ساعت مچی", price: "۱,۲۰۰,۰۰۰", img: "https://via.placeholder.com/150" },
-    { id: 3, cat: "کالای ۲", name: "گردنبند نقره", price: "۸۵۰,۰۰۰", img: "https://via.placeholder.com/150" },
-    // می‌توانی محصولات بیشتری اینجا اضافه کنی
+// دیتابیس محصولات (عکس، نام، مشخصات، قیمت، دسته)
+const db = [
+    { name: "محصول نمونه ۱", specs: "سایز بزرگ - رنگ مشکی", price: "۵۵۰,۰۰۰", cat: "کالای ۱", img: "" },
+    { name: "محصول نمونه ۲", specs: "سایز کوچک - استیل", price: "۱,۲۰۰,۰۰۰", cat: "کالای ۱", img: "" },
+    { name: "محصول نمونه ۳", specs: "ضد آب - چرم", price: "۳,۵۰۰,۰۰۰", cat: "کالای ۲", img: "" },
+    // اینجا بعدا محصولات واقعی رو اضافه میکنیم
 ];
 
-const categoryList = document.getElementById('category-list');
-const productGrid = document.getElementById('product-grid');
+const container = document.getElementById('product-container');
+const btnContainer = document.getElementById('cat-buttons');
 
+// ۱. اجرای اولیه سایت
 function init() {
-    // ساخت دکمه‌های کناری (۱۰ کالا)
-    for (let i = 1; i <= 10; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'category-btn';
-        btn.innerText = `کالای ${i}`;
-        btn.onclick = () => filterByCategory(`کالای ${i}`);
-        categoryList.appendChild(btn);
-    }
-    renderProducts(allProducts);
+    createButtons();
+    render(db);
 }
 
-function renderProducts(products) {
-    productGrid.innerHTML = '';
-    products.forEach(p => {
+// ۲. ساخت دکمه‌های ۱ تا ۱۰
+function createButtons() {
+    for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'btn-neon';
+        btn.innerText = `کالای ${i}`;
+        btn.onclick = () => filterCat(`کالای ${i}`);
+        btnContainer.appendChild(btn);
+    }
+}
+
+// ۳. نمایش محصولات در صفحه
+function render(list) {
+    container.innerHTML = '';
+    
+    if(list.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; width:100%;">موردی یافت نشد.</p>';
+        return;
+    }
+
+    list.forEach(item => {
         const card = document.createElement('div');
         card.className = 'product-card';
+        
+        // اگر عکس نداشت، یک باکس خالی نشون میده
+        const imageSrc = item.img ? `<img src="${item.img}" style="width:100%; height:180px; object-fit:cover;">` : '<div class="product-img">بدون عکس</div>';
+
         card.innerHTML = `
-            <img src="${p.img}" alt="${p.name}">
-            <h4>${p.name}</h4>
-            <p class="price">${p.price} تومان</p>
-            <button class="buy-btn">افزودن به سبد</button>
+            ${imageSrc}
+            <h3>${item.name}</h3>
+            <p class="specs">${item.specs}</p>
+            <p class="price">${item.price} تومان</p>
         `;
-        productGrid.appendChild(card);
+        container.appendChild(card);
     });
 }
 
-// تابع سرچ
-function searchProduct() {
-    const term = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = allProducts.filter(p => p.name.includes(term));
-    renderProducts(filtered);
+// ۴. سرچ کردن
+function doSearch() {
+    const val = document.getElementById('searchInput').value.trim().toLowerCase();
+    const filtered = db.filter(p => p.name.includes(val));
+    render(filtered);
 }
 
-function filterByCategory(catName) {
-    const filtered = allProducts.filter(p => p.cat === catName);
-    document.getElementById('category-title').innerText = catName;
-    renderProducts(filtered);
+// ۵. فیلتر بر اساس دسته
+function filterCat(catName) {
+    // برای اینکه تیتر "لیست محصولات" عوض نشه، فقط فیلتر میکنیم
+    const filtered = db.filter(p => p.cat === catName);
+    render(filtered);
 }
 
 init();
