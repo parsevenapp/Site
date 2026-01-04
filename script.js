@@ -1,58 +1,51 @@
- // دیتابیس محصولات (می‌توانی قیمت‌ها و نام‌ها را اینجا عوض کنی)
-const categories = [
-    { id: 1, name: "کالای ۱", products: [{ name: "زیرمجموعه ۱-۱", price: "۱۰,۰۰۰" }, { name: "زیرمجموعه ۱-۲", price: "۲۰,۰۰۰" }] },
-    { id: 2, name: "کالای ۲", products: [{ name: "زیرمجموعه ۲-۱", price: "۳۰,۰۰۰" }] },
-    { id: 3, name: "کالای ۳", products: [{ name: "زیرمجموعه ۳-۱", price: "۴۰,۰۰۰" }] },
-    { id: 4, name: "کالای ۴", products: [] },
-    { id: 5, name: "کالای ۵", products: [] },
-    { id: 6, name: "کالای ۶", products: [] },
-    { id: 7, name: "کالای ۷", products: [] },
-    { id: 8, name: "کالای ۸", products: [] },
-    { id: 9, name: "کالای ۹", products: [] },
-    { id: 10, name: "کالای ۱۰", products: [] },
+const allProducts = [
+    { id: 1, cat: "کالای ۱", name: "محصول طلایی", price: "۵۰۰,۰۰۰", img: "https://via.placeholder.com/150" },
+    { id: 2, cat: "کالای ۱", name: "ساعت مچی", price: "۱,۲۰۰,۰۰۰", img: "https://via.placeholder.com/150" },
+    { id: 3, cat: "کالای ۲", name: "گردنبند نقره", price: "۸۵۰,۰۰۰", img: "https://via.placeholder.com/150" },
+    // می‌توانی محصولات بیشتری اینجا اضافه کنی
 ];
 
 const categoryList = document.getElementById('category-list');
 const productGrid = document.getElementById('product-grid');
-const categoryTitle = document.getElementById('category-title');
 
-// تابع ساخت دکمه‌های سمت راست
-function IRAN_Shop_Init() {
-    categories.forEach(cat => {
+function init() {
+    // ساخت دکمه‌های کناری (۱۰ کالا)
+    for (let i = 1; i <= 10; i++) {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
-        btn.innerText = cat.name;
-        btn.onclick = () => showProducts(cat);
+        btn.innerText = `کالای ${i}`;
+        btn.onclick = () => filterByCategory(`کالای ${i}`);
         categoryList.appendChild(btn);
-    });
+    }
+    renderProducts(allProducts);
 }
 
-// تابع نمایش محصولات هر دسته
-function showProducts(category) {
-    // تغییر عنوان بالای صفحه
-    categoryTitle.innerText = 'لیست محصولات ' + category.name;
-    
-    // پاک کردن محصولات قبلی
+function renderProducts(products) {
     productGrid.innerHTML = '';
-
-    // اگر محصولی بود نمایش بده، وگرنه پیام خالی بودن
-    if (category.products.length === 0) {
-        productGrid.innerHTML = '<p style="padding:20px;">هنوز محصولی در این دسته اضافه نشده است.</p>';
-        return;
-    }
-
-    category.products.forEach(prod => {
+    products.forEach(p => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <div class="product-img-placeholder">عکس</div>
-            <h4>${prod.name}</h4>
-            <p>قیمت: ${prod.price} تومان</p>
-            <button style="margin-top:10px; padding:5px 10px; cursor:pointer;">مشاهده</button>
+            <img src="${p.img}" alt="${p.name}">
+            <h4>${p.name}</h4>
+            <p class="price">${p.price} تومان</p>
+            <button class="buy-btn">افزودن به سبد</button>
         `;
         productGrid.appendChild(card);
     });
 }
 
-// اجرای اولیه
-IRAN_Shop_Init();
+// تابع سرچ
+function searchProduct() {
+    const term = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = allProducts.filter(p => p.name.includes(term));
+    renderProducts(filtered);
+}
+
+function filterByCategory(catName) {
+    const filtered = allProducts.filter(p => p.cat === catName);
+    document.getElementById('category-title').innerText = catName;
+    renderProducts(filtered);
+}
+
+init();
