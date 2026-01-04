@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری</title>
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <title>گالری حرفه‌ای</title>
+    <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
 
@@ -12,8 +12,11 @@
         <h1 class="flicker-text">به سایت گالری خوش آمدید</h1>
     </div>
 
-    <div class="search-wrapper">
-        <input type="text" id="searchInput" placeholder="جستجوی نام محصول..." onkeyup="doSearch()">
+    <div class="control-bar">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="جستجوی محصول..." onkeyup="doSearch()">
+        </div>
+        <button id="viewToggle" class="toggle-btn" onclick="toggleView()">حالت نمایش: گرید</button>
     </div>
 
     <div class="list-title">
@@ -40,10 +43,9 @@
                 <a href="#" id="f-tele" class="social-link">تلگرام</a>
             </div>
         </div>
-        
-        <button onclick="adminEdit()" class="admin-btn">⚙️ ویرایش فوتر</button>
+        <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت سایت</button>
     </footer>
 
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 </html>
