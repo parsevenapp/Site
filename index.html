@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گالری حرفه‌ای نئون</title>
-    <link rel="stylesheet" href="style.css?v=10.0">
+    <link rel="stylesheet" href="style.css?v=11.0">
 </head>
 <body>
     <div class="neon-header-box">
@@ -35,8 +35,14 @@
             <input type="text" id="p-cat" placeholder="دسته (مثلاً: کالای ۱)">
             
             <div class="upload-section">
-                <button class="btn-neon" onclick="document.getElementById('p-file').click()">📸 انتخاب عکس</button>
-                <input type="file" id="p-file" style="display:none" accept="image/*">
+                <p style="margin-bottom:10px; font-size:12px;">انتخاب عکس‌ها:</p>
+                <button class="btn-neon" onclick="document.getElementById('p-file1').click()" style="margin-bottom:5px;">عکس ۱ (اصلی)</button>
+                <button class="btn-neon" onclick="document.getElementById('p-file2').click()" style="margin-bottom:5px;">عکس ۲</button>
+                <button class="btn-neon" onclick="document.getElementById('p-file3').click()" style="margin-bottom:5px;">عکس ۳</button>
+                
+                <input type="file" id="p-file1" style="display:none" accept="image/*">
+                <input type="file" id="p-file2" style="display:none" accept="image/*">
+                <input type="file" id="p-file3" style="display:none" accept="image/*">
                 <p id="uploadStatus" style="font-size:12px; margin-top:5px; color:#0ff;"></p>
             </div>
             <button class="btn-neon" style="background:#b026ff; border-color:#b026ff; color:#fff; width:100%;" onclick="submitProduct()">🚀 ثبت و انتشار آنلاین</button>
@@ -56,6 +62,6 @@
         <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت سایت</button>
     </footer>
 
-    <script src="script.js?v=10.0"></script>
+    <script src="script.js?v=11.0"></script>
 </body>
 </html>
