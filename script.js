@@ -3,6 +3,12 @@ const MASTER_KEY = "$2a$10$WpZMbfrUQIsZdCSyJ9yOJOcPSs7TCJ0L2i8/iXCThdK1gN4BbP95W
 const IMGBB_API_KEY = "f5650efc511c1e3bc1edc404dde48b57";
 const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
+// لیست اسامی واقعی دسته‌ها
+const categories = [
+    "مینیاتور", "مینیاتور نوین", "تذهیب", "صنایع دستی", "میناکاری",
+    "میناکاری تذهیب", "رنگ روغن", "گلسازی", "قلم زنی", "خاتم"
+];
+
 let db = { products: [], footer: { addr: "", phone: "", insta: "#", tele: "#" } };
 let currentView = 'grid';
 
@@ -78,7 +84,6 @@ function render(filterList = null) {
 
 async function adminPanel() {
     const pass = prompt("رمز مدیر:");
-    // رمز جدید در خط پایین اعمال شده است
     if (pass !== "6868") {
         alert("رمز اشتباه است!");
         return;
@@ -102,7 +107,7 @@ async function submitProduct() {
     const name = document.getElementById('p-name').value;
     const price = document.getElementById('p-price').value;
     const specs = document.getElementById('p-specs').value;
-    const cat = document.getElementById('p-cat').value;
+    const cat = document.getElementById('p-cat').value; // اینجا باید دقیقاً یکی از اسامی بالا نوشته شود
     const files = [
         document.getElementById('p-file1').files[0],
         document.getElementById('p-file2').files[0],
@@ -126,7 +131,7 @@ async function submitProduct() {
         await saveData();
         alert("محصول با موفقیت آنلاین شد!");
         location.reload();
-    } catch (err) { alert("خطا در آپلود! حجم عکس یا اینترنت را چک کنید."); }
+    } catch (err) { alert("خطا در آپلود!"); }
 }
 
 async function deleteProduct(idx) {
@@ -146,16 +151,26 @@ function updateFooterUI() {
     document.getElementById('f-tele').href = db.footer.tele;
 }
 
+// ساخت دکمه‌ها با اسامی جدید
 function createCategoryButtons() {
     const cont = document.getElementById('cat-buttons');
     cont.innerHTML = '';
-    for (let i = 1; i <= 10; i++) {
+    
+    // دکمه "همه محصولات" برای نمایش کل لیست
+    const allBtn = document.createElement('button');
+    allBtn.className = 'btn-neon';
+    allBtn.innerText = "همه محصولات";
+    allBtn.onclick = () => render(db.products);
+    cont.appendChild(allBtn);
+
+    categories.forEach(catName => {
         const b = document.createElement('button'); 
         b.className = 'btn-neon'; 
-        b.innerText = `کالای ${i}`;
-        b.onclick = () => render(db.products.filter(p => p.cat === `کالای ${i}`));
+        b.innerText = catName;
+        // فیلتر کردن بر اساس اسم دقیق دسته
+        b.onclick = () => render(db.products.filter(p => p.cat === catName));
         cont.appendChild(b);
-    }
+    });
 }
 
 function doSearch() {
