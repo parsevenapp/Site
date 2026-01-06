@@ -6,8 +6,20 @@ const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 let db = { products: [], footer: { addr: "", phone: "", tg: "", ig: "" } };
 window.isAdmin = false;
 
-// لیست ثابت دسته‌ها که همیشه نمایش داده شوند
-const FIXED_CATEGORIES = ["همه آثار", "مینیاتور", "مینیاتور نوین", "تذهیب"];
+// لیست ۱۰تایی دقیق که الان فرستادی
+const CATEGORIES = [
+    "همه آثار", 
+    "مینیاتور", 
+    "مینیاتور نوین", 
+    "تذهیب", 
+    "میناکاری", 
+    "خاتم", 
+    "صنایع دستی", 
+    "قلم زنی", 
+    "رنگ روغن", 
+    "آبرنگ", 
+    "سایر"
+];
 
 async function init() { await loadData(); }
 
@@ -35,13 +47,11 @@ function render(filterList = null) {
     list.forEach((item, index) => {
         const card = document.createElement('div'); 
         card.className = 'product-card';
-        // فیلتر کردن عکس‌های خالی
-        const imgs = [item.img, item.img2, item.img3].filter(s => s && s !== "null"); 
+        const imgs = [item.img, item.img2, item.img3].filter(s => s && s !== "null" && s !== ""); 
         let cur = 0;
 
         const deleteBtn = window.isAdmin ? `<button onclick="event.stopPropagation(); deleteProduct(${index})" class="del-btn-fix" style="position:absolute; top:5px; right:5px; z-index:100; width:auto; padding:5px 10px; margin:0;">🗑️ حذف</button>` : '';
 
-        // ساخت HTML کارت
         card.innerHTML = `
             ${deleteBtn}
             <div class="image-slider">
@@ -58,23 +68,22 @@ function render(filterList = null) {
                 <p>سبک: ${item.cat}</p>
             </div>`;
 
-        // لاجیک تعویض عکس (اسلایدر)
         const imgTag = card.querySelector('.main-img');
         const nextBtn = card.querySelector('.next-btn');
         const prevBtn = card.querySelector('.prev-btn');
 
         if (nextBtn) {
-            nextBtn.onclick = (e) => {
-                e.stopPropagation(); // جلوگیری از باز شدن کارت
-                cur = (cur + 1) % imgs.length;
-                imgTag.src = imgs[cur];
+            nextBtn.onclick = (e) => { 
+                e.stopPropagation(); 
+                cur = (cur + 1) % imgs.length; 
+                imgTag.src = imgs[cur]; 
             };
         }
         if (prevBtn) {
-            prevBtn.onclick = (e) => {
-                e.stopPropagation(); // جلوگیری از باز شدن کارت
-                cur = (cur - 1 + imgs.length) % imgs.length;
-                imgTag.src = imgs[cur];
+            prevBtn.onclick = (e) => { 
+                e.stopPropagation(); 
+                cur = (cur - 1 + imgs.length) % imgs.length; 
+                imgTag.src = imgs[cur]; 
             };
         }
 
@@ -86,15 +95,13 @@ function render(filterList = null) {
 function createCategoryButtons() {
     const cont = document.getElementById('cat-buttons'); 
     cont.innerHTML = '';
-    
-    // ایجاد دکمه برای تمام دسته‌های ثابت
-    FIXED_CATEGORIES.forEach(cat => { 
+    CATEGORIES.forEach(cat => { 
         const b = document.createElement('button'); 
         b.className = 'btn-neon'; 
         b.innerText = cat; 
         b.onclick = () => {
             if(cat === "همه آثار") render(db.products);
-            else render(db.products.filter(p => p.cat === cat));
+            else render(db.products.filter(p => p.cat && p.cat.trim() === cat.trim()));
         };
         cont.appendChild(b); 
     });
@@ -108,7 +115,7 @@ async function adminPanel() {
     else if(c === "2") { 
         db.footer.addr = prompt("آدرس:", db.footer.addr); 
         db.footer.phone = prompt("تلفن:", db.footer.phone);
-        db.footer.tg = prompt("آیدی تلگرام (بدون @):", db.footer.tg || "");
+        db.footer.tg = prompt("آیدی تلگرام:", db.footer.tg || "");
         db.footer.ig = prompt("آیدی اینستاگرام:", db.footer.ig || "");
         await saveData(); updateFooterUI(); 
     }
@@ -117,9 +124,9 @@ async function adminPanel() {
 function closeAdmin() { document.getElementById('adminModal').style.display = "none"; }
 
 async function submitProduct() {
-    const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, s = document.getElementById('p-specs').value, c = document.getElementById('p-cat').value;
+    const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, s = document.getElementById('p-specs').value, c = document.getElementById('p-cat').value.trim(); 
     const files = [document.getElementById('p-file1').files[0], document.getElementById('p-file2').files[0], document.getElementById('p-file3').files[0]];
-    if(!n || !p || !files[0]) return alert("نام، قیمت و عکس اصلی الزامی است");
+    if(!n || !p || !files[0]) return alert("اطلاعات ناقص است");
     document.getElementById('uploadStatus').innerText = "درحال آپلود...";
     try {
         const urls = [];
@@ -140,20 +147,12 @@ async function deleteProduct(i) { if(confirm("حذف شود؟")) { db.products.s
 function updateFooterUI() { 
     document.getElementById('f-addr').innerText = "آدرس: " + (db.footer.addr || "-"); 
     document.getElementById('f-phone').innerText = "تلفن: " + (db.footer.phone || "-"); 
-    
-    const tg = db.footer.tg || "Ahmad_Gallery";
-    const ig = db.footer.ig || "YourPage";
-    
-    if(document.getElementById('text-tg')) document.getElementById('text-tg').innerText = "@" + tg;
-    if(document.getElementById('link-tg')) document.getElementById('link-tg').href = "https://t.me/" + tg;
-    
-    if(document.getElementById('text-ig')) document.getElementById('text-ig').innerText = "@" + ig;
-    if(document.getElementById('link-ig')) document.getElementById('link-ig').href = "https://instagram.com/" + ig;
-}
-
-function setView(mode) {
-    const container = document.getElementById('product-container');
-    container.className = mode === 'list' ? 'list-display' : 'grid-display';
+    if(document.getElementById('text-tg')) {
+        document.getElementById('text-tg').innerText = "@" + (db.footer.tg || "");
+        document.getElementById('link-tg').href = "https://t.me/" + (db.footer.tg || "");
+        document.getElementById('text-ig').innerText = "@" + (db.footer.ig || "");
+        document.getElementById('link-ig').href = "https://instagram.com/" + (db.footer.ig || "");
+    }
 }
 
 function doSearch() { 
