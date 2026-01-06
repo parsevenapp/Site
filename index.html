@@ -32,18 +32,23 @@
             <h2 style="color:#0ff; margin-bottom:15px;">افزودن اثر جدید</h2>
             <input type="text" id="p-name" placeholder="نام اثر">
             <input type="text" id="p-price" placeholder="قیمت (تومان)">
-            <textarea id="p-specs" placeholder="توضیحات اثر..."></textarea>
-            <input type="text" id="p-cat" placeholder="دسته">
-            <input type="file" id="p-file1">
-            <button class="btn-neon" style="background:#b026ff; color:#fff; width:100%; margin-top:10px;" onclick="submitProduct()">🚀 انتشار آنلاین</button>
+            <textarea id="p-specs" placeholder="توضیحات و مشخصات اثر..."></textarea>
+            <input type="text" id="p-cat" placeholder="دسته (مثلاً: تذهیب)">
+            <div class="upload-section">
+                <input type="file" id="p-file1" style="margin-bottom:5px;">
+                <input type="file" id="p-file2" style="margin-bottom:5px;">
+                <input type="file" id="p-file3" style="margin-bottom:5px;">
+                <p id="uploadStatus" style="font-size:12px; margin-top:5px; color:#0ff;"></p>
+            </div>
+            <button class="btn-neon" style="background:#b026ff; border-color:#b026ff; color:#fff; width:100%; margin-top:10px;" onclick="submitProduct()">🚀 انتشار آنلاین اثر</button>
         </div>
     </div>
     <footer class="neon-footer">
-        <div id="f-addr">آدرس: -</div>
-        <div id="f-phone">تلفن: -</div>
+        <div id="f-addr">آدرس: در حال دریافت...</div>
+        <div id="f-phone">تلفن: در حال دریافت...</div>
         <div id="f-social" style="margin-top:15px;">
-            <a id="link-tg" href="#" target="_blank" style="color:#0ff; text-decoration:none; margin:0 10px;">تلگرام</a>
-            <a id="link-ig" href="#" target="_blank" style="color:#b026ff; text-decoration:none; margin:0 10px;">اینستاگرام</a>
+            <a id="link-tg" href="#" target="_blank" style="color:#0ff; text-decoration:none; margin:0 15px;">تلگرام</a>
+            <a id="link-ig" href="#" target="_blank" style="color:#b026ff; text-decoration:none; margin:0 15px;">اینستاگرام</a>
         </div>
         <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت</button>
     </footer>
