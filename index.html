@@ -3,172 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری هنری نئونی | نسخه نهایی</title>
-    <style>
-        :root { --neon: #0ff; --purple: #b026ff; --bg: #050505; }
-        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-        body { background: var(--bg); font-family: 'Tahoma', sans-serif; color: #fff; direction: rtl; overflow-x: hidden; }
-
-        /* هدر نئونی */
-        .header-box { text-align: center; padding: 25px; border-bottom: 2px solid var(--neon); box-shadow: 0 0 15px var(--neon); background: #000; }
-        .flicker-text { font-size: 1.8rem; text-shadow: 0 0 10px var(--neon); color: var(--neon); }
-        .social-links { margin-top: 15px; }
-        .social-links a { color: #fff; text-decoration: none; margin: 0 10px; font-size: 13px; border: 1px solid #333; padding: 6px 15px; border-radius: 20px; transition: 0.3s; }
-        .social-links a:hover { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 10px var(--neon); }
-
-        /* نوار ابزار */
-        .toolbar { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 20px; align-items: center; background: #0a0a0a; }
-        #searchInput { width: 280px; padding: 12px; border-radius: 25px; border: 2px solid var(--purple); background: transparent; color: #fff; text-align: center; box-shadow: 0 0 8px var(--purple); }
-        .view-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
-        .view-btn.active { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 10px var(--neon); }
-
-        /* چیدمان اصلی */
-        .main-wrapper { display: flex; padding: 20px; gap: 20px; max-width: 1300px; margin: 0 auto; }
-        .sidebar { width: 180px; flex-shrink: 0; }
-        .gallery-content { flex-grow: 1; }
-
-        /* دسته بندی */
-        .cat-item { display: block; width: 100%; padding: 12px; margin-bottom: 8px; background: #111; border: 1px solid #222; color: #ccc; cursor: pointer; text-align: right; border-radius: 8px; transition: 0.3s; }
-        .cat-item:hover, .cat-item.active { border-color: var(--neon); color: var(--neon); }
-
-        /* نمایش گرید و لیست */
-        .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
-        .list-view { display: flex; flex-direction: column; gap: 20px; }
-
-        .card { background: #111; border: 1px solid #222; border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; }
-        .card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple); }
-
-        /* تغییرات حالت لیست */
-        .list-view .card { flex-direction: row; height: 160px; align-items: center; }
-        .list-view .img-box { width: 160px; height: 160px; flex-shrink: 0; }
-        .list-view .card-info { text-align: right; padding-right: 20px; }
-        .list-view .order-btn { width: auto; padding: 10px 20px; margin-left: 15px; border-radius: 5px; }
-
-        .img-box { width: 100%; height: 220px; background: #1a1a1a; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .card-info { padding: 15px; flex-grow: 1; text-align: center; }
-        .price-text { color: var(--neon); font-weight: bold; font-size: 1.2rem; display: block; margin: 8px 0; }
-
-        .order-btn { background: #24A1DE; color: #fff; text-decoration: none; padding: 12px; text-align: center; font-weight: bold; display: block; border-radius: 0 0 12px 12px; }
-
-        /* ریسپانسیو موبایل */
-        @media (max-width: 768px) {
-            .main-wrapper { flex-direction: column; }
-            .sidebar { width: 100%; display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; }
-            .cat-item { width: auto; white-space: nowrap; margin-bottom: 0; }
-            .list-view .card { flex-direction: column; height: auto; }
-            .list-view .img-box { width: 100%; height: 200px; }
-            .list-view .order-btn { width: 100%; margin: 0; border-radius: 0 0 12px 12px; }
-        }
-
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
-        .modal-body { background: #111; margin: 15% auto; padding: 25px; border: 1px solid var(--neon); width: 90%; max-width: 400px; border-radius: 15px; }
-        .modal-body input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; }
-    </style>
+    <meta name="google-site-verification" content="TQSSOMKuooSA2bkkvN97MYviR15vqa7t6Fhsc5biqIE" />
+    <meta name="description" content="گالری هنری آنلاین - نمایش آثار مینیاتور، تذهیب و صنایع دستی">
+    
+    <title>گالری هنری نئون</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="header-box">
-    <h1 class="flicker-text">گالری هنری آنلاین</h1>
-    <div class="social-links">
-        <a href="https://t.me/Ahmad_Gallery" target="_blank">تلگرام</a>
-        <a href="https://instagram.com/YourPage" target="_blank">اینستاگرام</a>
+    <div class="neon-header-box">
+        <h1 class="flicker-text">به سایت گالری خوش آمدید</h1>
     </div>
-</header>
-
-<div class="toolbar">
-    <input type="text" id="searchInput" placeholder="جستجو در آثار..." onkeyup="render()">
-    <div class="view-toggle">
-        <button id="gridBtn" class="view-btn active" onclick="setView('grid')">🔲 شبکه</button>
-        <button id="listBtn" class="view-btn" onclick="setView('list')">≡ لیست</button>
+    <div class="control-bar">
+        <input type="text" id="searchInput" placeholder="جستجوی نام اثر..." onkeyup="doSearch()">
     </div>
-</div>
-
-<div class="main-wrapper">
-    <aside class="sidebar" id="catNav"></aside>
-    <main class="gallery-content">
-        <div id="productGrid" class="grid-view"></div>
-    </main>
-</div>
-
-<div id="adminModal" class="modal">
-    <div class="modal-body">
-        <h3 style="color:var(--neon)">افزودن محصول</h3>
-        <input type="text" id="p-name" placeholder="نام اثر">
-        <input type="text" id="p-price" placeholder="قیمت">
-        <input type="text" id="p-cat" placeholder="دسته بندی">
-        <input type="file" id="p-file">
-        <button class="cat-item" style="border-color:var(--neon); color:var(--neon)" onclick="saveProduct()">ذخیره</button>
-        <button class="cat-item" onclick="closeAdmin()">لغو</button>
+    <div class="main-wrapper">
+        <aside class="sidebar-nav">
+            <div id="cat-buttons"></div>
+        </aside>
+        <main class="content-area">
+            <div id="product-container" class="grid-display"></div>
+        </main>
     </div>
-</div>
-
-<footer style="text-align:center; padding:20px; opacity:0.1;"><button onclick="openAdmin()" style="background:none; border:none; cursor:pointer">⚙️</button></footer>
-
-<script>
-    const TG_ID = "Ahmad_Gallery"; 
-    const BIN_ID = "695aba4543b1c97be919090f";
-    const KEY = "$2a$10$WpZMbfrUQIsZdCSyJ9yOJOcPSs7TCJ0L2i8/iXCThdK1gN4BbP95W";
-    const API = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-
-    let products = [];
-    let viewMode = 'grid';
-    let currentCat = 'همه';
-
-    async function init() {
-        try {
-            const res = await fetch(API, { headers: { "X-Master-Key": KEY } });
-            const data = await res.json();
-            products = data.record.products;
-            renderCats();
-            render();
-        } catch(e) { console.error("Error Loading"); }
-    }
-
-    function renderCats() {
-        const cats = ['همه', ...new Set(products.map(p => p.cat))];
-        document.getElementById('catNav').innerHTML = cats.map(c => 
-            `<button class="cat-item ${currentCat===c?'active':''}" onclick="setCat('${c}')">${c}</button>`
-        ).join('');
-    }
-
-    function setCat(c) { currentCat = c; renderCats(); render(); }
-    function setView(v) { 
-        viewMode = v; 
-        document.getElementById('gridBtn').classList.toggle('active', v==='grid');
-        document.getElementById('listBtn').classList.toggle('active', v==='list');
-        render(); 
-    }
-
-    function render() {
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        const container = document.getElementById('productGrid');
-        container.className = viewMode === 'grid' ? 'grid-view' : 'list-view';
-
-        const filtered = products.filter(p => 
-            (currentCat === 'همه' || p.cat === currentCat) && 
-            (p.name.toLowerCase().includes(search))
-        );
-
-        container.innerHTML = filtered.map(p => {
-            const msg = encodeURIComponent(`سلام، سفارش خرید: ${p.name}\nقیمت: ${p.price}`);
-            return `
-                <div class="card">
-                    <div class="img-box"><img src="${p.img}"></div>
-                    <div class="card-info">
-                        <h4>${p.name}</h4>
-                        <span class="price-text">${p.price} تومان</span>
-                    </div>
-                    <a href="https://t.me/${TG_ID}?text=${msg}" target="_blank" class="order-btn">🛒 سفارش در تلگرام</a>
-                </div>
-            `;
-        }).join('');
-    }
-
-    function openAdmin() { if(prompt("رمز:")==="6868") document.getElementById('adminModal').style.display="block"; }
-    function closeAdmin() { document.getElementById('adminModal').style.display="none"; }
-    init();
-</script>
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdmin()">&times;</span>
+            <h2 style="color:#0ff; margin-bottom:15px;">افزودن اثر جدید</h2>
+            <input type="text" id="p-name" placeholder="نام اثر">
+            <input type="text" id="p-price" placeholder="قیمت (تومان)">
+            <textarea id="p-specs" placeholder="توضیحات و مشخصات اثر..."></textarea>
+            <input type="text" id="p-cat" placeholder="دسته (مثلاً: تذهیب)">
+            <div class="upload-section">
+                <button class="btn-neon" onclick="document.getElementById('p-file1').click()">عکس اصلی</button>
+                <button class="btn-neon" onclick="document.getElementById('p-file2').click()">عکس دوم</button>
+                <button class="btn-neon" onclick="document.getElementById('p-file3').click()">عکس سوم</button>
+                <input type="file" id="p-file1" style="display:none" accept="image/*">
+                <input type="file" id="p-file2" style="display:none" accept="image/*">
+                <input type="file" id="p-file3" style="display:none" accept="image/*">
+                <p id="uploadStatus" style="font-size:12px; margin-top:5px; color:#0ff;"></p>
+            </div>
+            <button class="btn-neon" style="background:#b026ff; border-color:#b026ff; color:#fff; width:100%; margin-top:10px;" onclick="submitProduct()">🚀 انتشار آنلاین اثر</button>
+        </div>
+    </div>
+    <footer class="neon-footer">
+        <div id="f-addr">آدرس: در حال دریافت...</div>
+        <div id="f-phone">تلفن: در حال دریافت...</div>
+        <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت</button>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
