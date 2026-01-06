@@ -3,147 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="TQSSOMKuooSA2bkkvN97MYviR15vqa7t6Fhsc5biqIE" />
-    <title>گالری هنری</title>
+    <title>گالری هنری | ویترین هوشمند</title>
     <style>
-        /* بازگشت به استایل نئونی اصلی */
-        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-        body { background: #050505; font-family: 'Tahoma', sans-serif; color: #fff; direction: rtl; overflow-x: hidden; }
+        :root { --neon: #0ff; --purple: #b026ff; --bg: #050505; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); font-family: 'Tahoma', sans-serif; color: #fff; direction: rtl; }
+
+        /* هدر و شبکه‌های اجتماعی */
+        .header-box { text-align: center; padding: 20px; border-bottom: 2px solid var(--neon); box-shadow: 0 0 15px var(--neon); }
+        .social-links { margin-top: 10px; }
+        .social-links a { color: var(--neon); text-decoration: none; margin: 0 10px; font-size: 14px; border: 1px solid var(--neon); padding: 5px 10px; border-radius: 5px; }
+
+        /* نوار ابزار (جستجو و تغییر حالت نمایش) */
+        .toolbar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 20px; align-items: center; }
+        #searchInput { padding: 10px; border-radius: 20px; border: 1px solid var(--purple); background: transparent; color: #fff; width: 250px; text-align: center; }
+        .view-btn { background: #222; color: #fff; border: 1px solid #444; padding: 8px 15px; cursor: pointer; border-radius: 5px; }
+        .view-btn.active { border-color: var(--neon); color: var(--neon); }
+
+        /* بدنه اصلی */
+        .main-container { display: flex; flex-direction: row; padding: 10px; gap: 15px; }
+        .sidebar { width: 180px; flex-shrink: 0; }
+        .content { flex-grow: 1; }
+
+        /* دسته‌بندی‌ها */
+        .cat-btn { display: block; width: 100%; padding: 10px; margin-bottom: 5px; background: #111; border: 1px solid #333; color: #ccc; cursor: pointer; text-align: right; border-radius: 5px; }
+        .cat-btn:hover, .cat-btn.active { border-color: var(--neon); color: var(--neon); }
+
+        /* نمایش محصولات (گرید و لیست) */
+        .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .list-view { display: flex; flex-direction: column; gap: 15px; }
+
+        .product-card { background: #111; border: 1px solid #222; border-radius: 10px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; }
+        .list-view .product-card { flex-direction: row; height: 150px; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--purple); box-shadow: 0 0 15px var(--purple); }
+
+        .img-container { width: 100%; height: 200px; background: #222; }
+        .list-view .img-container { width: 150px; height: 150px; flex-shrink: 0; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .info { padding: 15px; flex-grow: 1; text-align: center; }
+        .list-view .info { text-align: right; display: flex; flex-direction: column; justify-content: center; }
         
-        .header-box { text-align: center; padding: 30px; border-bottom: 2px solid #0ff; box-shadow: 0 0 15px #0ff; }
-        .flicker-text { font-size: 2rem; text-shadow: 0 0 10px #0ff; animation: flicker 1.5s infinite alternate; color: #0ff; }
-        @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        .price { color: var(--neon); font-weight: bold; display: block; margin: 8px 0; }
 
-        .control-bar { padding: 20px; text-align: center; }
-        #searchInput { width: 90%; max-width: 400px; padding: 12px; background: transparent; border: 2px solid #b026ff; border-radius: 25px; color: #fff; text-align: center; box-shadow: 0 0 10px #b026ff; }
+        /* دکمه سفارش تلگرام */
+        .order-link { background: #24A1DE; color: #fff; text-decoration: none; padding: 10px; text-align: center; font-weight: bold; border-radius: 0 0 10px 10px; transition: 0.3s; }
+        .list-view .order-link { border-radius: 5px; margin: 10px; height: fit-content; align-self: center; }
+        .order-link:hover { background: #0088cc; }
 
-        .main-wrapper { display: flex; padding: 20px; gap: 20px; }
-        .sidebar-nav { width: 220px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
-        
-        .btn-neon { width: 100%; padding: 12px; background: #111; border: 1px solid #0ff; color: #0ff; cursor: pointer; font-weight: bold; transition: 0.3s; text-align: center; }
-        .btn-neon:hover { background: #0ff; color: #000; box-shadow: 0 0 15px #0ff; }
-
-        .grid-display { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
-        .product-card { background: #111; border: 1px solid #333; border-radius: 10px; overflow: hidden; transition: 0.4s; cursor: pointer; position: relative; }
-        .product-card.active { transform: scale(1.05); z-index: 10; border-color: #b026ff; box-shadow: 0 0 30px #b026ff; }
-
-        .image-slider { position: relative; width: 100%; height: 230px; background: #222; }
-        .image-slider img { width: 100%; height: 100%; object-fit: cover; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,255,255,0.6); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; }
-        .next-btn { left: 10px; } .prev-btn { right: 10px; }
-
-        .product-info-summary { padding: 15px; text-align: center; }
-        .price-tag { color: #0ff; font-weight: bold; font-size: 1.2rem; }
-
-        .product-details { max-height: 0; overflow: hidden; transition: 0.4s; background: #0a0a0a; padding: 0 15px; }
-        .product-card.active .product-details { max-height: 500px; padding: 15px; border-top: 1px solid #333; }
-        
-        .del-btn-fix { background: #ff4444 !important; color: #fff !important; padding: 12px; width: 100%; margin-top: 15px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; }
-
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
-        .modal-content { background: #111; margin: 5% auto; padding: 20px; border: 2px solid #0ff; width: 90%; max-width: 420px; border-radius: 15px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #050505; border: 1px solid #333; color: #fff; }
-
-        footer { border-top: 1px solid #333; padding: 40px; text-align: center; margin-top: 50px; }
-        .admin-btn { background: transparent; border: none; color: #222; margin-top: 20px; cursor: pointer; font-size: 10px; }
-
+        /* موبایل فرندلی */
         @media (max-width: 768px) {
-            .main-wrapper { flex-direction: column; }
-            .sidebar-nav { width: 100%; flex-direction: row; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
-            .btn-neon { width: auto; padding: 10px 20px; }
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; }
+            .cat-btn { width: auto; white-space: nowrap; }
+            .grid-view { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+        .modal-content { background: #111; margin: 10% auto; padding: 20px; border: 1px solid var(--neon); width: 90%; max-width: 400px; border-radius: 10px; }
+        .modal-content input { width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid #333; color: #fff; }
     </style>
 </head>
 <body>
-    <div class="header-box"><h1 class="flicker-text">گالری آثار هنری</h1></div>
-    <div class="control-bar"><input type="text" id="searchInput" placeholder="جستجو در گالری..." onkeyup="doSearch()"></div>
+
+<header class="header-box">
+    <h1 style="color: var(--neon); text-shadow: 0 0 10px var(--neon);">گالری هنری</h1>
+    <div class="social-links">
+        <a href="https://t.me/YourID" target="_blank">تلگرام</a>
+        <a href="https://instagram.com/YourPage" target="_blank">اینستاگرام</a>
+    </div>
+</header>
+
+<div class="toolbar">
+    <input type="text" id="searchInput" placeholder="جستجو در آثار..." onkeyup="render()">
+    <button class="view-btn active" id="btnGrid" onclick="setView('grid')">🔲 شبکه</button>
+    <button class="view-btn" id="btnList" onclick="setView('list')">≡ لیست</button>
+</div>
+
+<div class="main-container">
+    <aside class="sidebar" id="catList"></aside>
+    <main class="content">
+        <div id="productContainer" class="grid-view"></div>
+    </main>
+</div>
+
+<div id="adminModal" class="modal">
+    <div class="modal-content">
+        <h3>افزودن محصول</h3>
+        <input type="text" id="pName" placeholder="نام اثر">
+        <input type="text" id="pPrice" placeholder="قیمت">
+        <input type="text" id="pCat" placeholder="دسته">
+        <input type="file" id="pFile">
+        <button class="view-btn" style="width:100%; border-color:var(--neon);" onclick="saveProduct()">ذخیره</button>
+        <button class="view-btn" style="width:100%; margin-top:5px;" onclick="closeAdmin()">لغو</button>
+    </div>
+</div>
+
+<footer style="text-align:center; padding:20px; opacity:0.2;"><button onclick="openAdmin()" style="background:none; border:none; cursor:pointer;">⚙️</button></footer>
+
+<script>
+    const TELEGRAM_ID = "YourID"; // آیدی تلگرام صاحب سایت
+    const BIN_ID = "695aba4543b1c97be919090f";
+    const MASTER_KEY = "$2a$10$WpZMbfrUQIsZdCSyJ9yOJOcPSs7TCJ0L2i8/iXCThdK1gN4BbP95W";
+    const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
     
-    <div class="main-wrapper">
-        <aside class="sidebar-nav"><div id="cat-buttons"></div></aside>
-        <main class="content-area"><div id="product-container" class="grid-display"></div></main>
-    </div>
+    let db = { products: [] };
+    let currentView = 'grid';
+    let currentCat = 'همه';
 
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span style="color:#f00; float:left; font-size:30px; cursor:pointer;" onclick="closeAdmin()">&times;</span>
-            <h2 style="color:#0ff; margin-bottom:15px;">افزودن اثر جدید</h2>
-            <input type="text" id="p-name" placeholder="نام اثر">
-            <input type="text" id="p-price" placeholder="قیمت (تومان)">
-            <textarea id="p-specs" placeholder="مشخصات اثر..."></textarea>
-            <input type="text" id="p-cat" placeholder="دسته (تذهیب، مینیاتور...)">
-            <div style="display:flex; gap:5px; margin-bottom:10px;">
-                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file1').click()">عکس ۱</button>
-                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file2').click()">عکس ۲</button>
-                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file3').click()">عکس ۳</button>
-            </div>
-            <input type="file" id="p-file1" style="display:none"><input type="file" id="p-file2" style="display:none"><input type="file" id="p-file3" style="display:none">
-            <p id="uploadStatus" style="font-size:12px; color:#0ff;"></p>
-            <button class="btn-neon" style="background:#b026ff; color:#fff; border:none; margin-top:10px;" onclick="submitProduct()">انتشار در سایت</button>
-        </div>
-    </div>
+    async function init() { await loadData(); }
 
-    <footer>
-        <div id="f-addr"></div><div id="f-phone" style="margin-top:10px;"></div>
-        <button onclick="adminPanel()" class="admin-btn">⚙️</button>
-    </footer>
+    async function loadData() {
+        const res = await fetch(`${API_URL}/latest`, { headers: { "X-Master-Key": MASTER_KEY } });
+        const data = await res.json();
+        db = data.record;
+        renderCats();
+        render();
+    }
 
-    <script>
-        const BIN_ID = "695aba4543b1c97be919090f";
-        const MASTER_KEY = "$2a$10$WpZMbfrUQIsZdCSyJ9yOJOcPSs7TCJ0L2i8/iXCThdK1gN4BbP95W";
-        const IMGBB_API_KEY = "f5650efc511c1e3bc1edc404dde48b57";
-        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-        const categories = ["مینیاتور", "مینیاتور نوین", "تذهیب", "صنایع دستی", "میناکاری", "میناکاری تذهیب", "رنگ روغن", "گلسازی", "قلم زنی", "خاتم"];
-        let db = { products: [], footer: { addr: "", phone: "" } };
+    function renderCats() {
+        const cats = ['همه', ...new Set(db.products.map(p => p.cat))];
+        const container = document.getElementById('catList');
+        container.innerHTML = cats.map(c => `<button class="cat-btn ${currentCat===c?'active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+    }
 
-        async function init() { createCategoryButtons(); await loadData(); }
-        async function loadData() {
-            try {
-                const res = await fetch(`${API_URL}/latest`, { headers: { "X-Master-Key": MASTER_KEY } });
-                const data = await res.json(); db = data.record; render(); updateFooterUI();
-            } catch (e) { console.error("Error"); }
-        }
-        async function saveData() {
-            await fetch(API_URL, { method: 'PUT', headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY }, body: JSON.stringify(db) });
-        }
-        function render(filterList = null) {
-            const list = filterList || db.products;
-            const container = document.getElementById('product-container'); container.innerHTML = '';
-            list.forEach((item, index) => {
-                const card = document.createElement('div'); card.className = 'product-card';
-                const imgs = [item.img, item.img2, item.img3].filter(s => s); let cur = 0;
-                card.innerHTML = `<div class="image-slider">${imgs.length > 1 ? `<button class="slider-btn next-btn">◀</button>` : ''}<img src="${imgs[0]}" class="main-img">${imgs.length > 1 ? `<button class="slider-btn prev-btn">▶</button>` : ''}</div><div class="product-info-summary"><h3>${item.name}</h3><span class="price-tag">${item.price} تومان</span></div><div class="product-details"><p>توضیحات: ${item.specs || '-'}</p><p>دسته: ${item.cat}</p>${window.isAdmin ? `<button onclick="deleteProduct(${index})" class="del-btn-fix">🗑️ حذف</button>` : ''}</div>`;
-                const imgTag = card.querySelector('.main-img');
-                card.querySelectorAll('.slider-btn').forEach(b => {
-                    b.onclick = (e) => { e.stopPropagation(); cur = b.classList.contains('next-btn') ? (cur + 1) % imgs.length : (cur - 1 + imgs.length) % imgs.length; imgTag.src = imgs[cur]; };
-                });
-                card.onclick = () => card.classList.toggle('active'); container.appendChild(card);
-            });
-        }
-        async function adminPanel() {
-            const p = prompt("رمز:"); if (p !== "6868") return; window.isAdmin = true;
-            const c = prompt("1: کالا | 2: فوتر");
-            if(c === "1") document.getElementById('adminModal').style.display = "block";
-            else if(c === "2") { db.footer.addr = prompt("آدرس:", db.footer.addr); db.footer.phone = prompt("تلفن:", db.footer.phone); await saveData(); updateFooterUI(); }
-        }
-        function closeAdmin() { document.getElementById('adminModal').style.display = "none"; }
-        async function submitProduct() {
-            const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, s = document.getElementById('p-specs').value, c = document.getElementById('p-cat').value, files = [document.getElementById('p-file1').files[0], document.getElementById('p-file2').files[0], document.getElementById('p-file3').files[0]];
-            if(!n || !p || !files[0]) return alert("نام، قیمت و عکس اصلی الزامی است");
-            document.getElementById('uploadStatus').innerText = "درحال آپلود تصاویر...";
-            try {
-                const urls = [];
-                for (let f of files) { if (f) { const fd = new FormData(); fd.append('image', f); const r = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd }); const d = await r.json(); urls.push(d.data.url); } else urls.push(null); }
-                db.products.push({ name: n, price: p, specs: s, cat: c, img: urls[0], img2: urls[1], img3: urls[2] }); await saveData(); location.reload();
-            } catch (e) { alert("خطا در آپلود"); }
-        }
-        async function deleteProduct(i) { if(confirm("حذف شود؟")) { db.products.splice(i, 1); await saveData(); render(); } }
-        function updateFooterUI() { document.getElementById('f-addr').innerText = "آدرس: " + (db.footer.addr || "-"); document.getElementById('f-phone').innerText = "تلفن: " + (db.footer.phone || "-"); }
-        function createCategoryButtons() {
-            const cont = document.getElementById('cat-buttons'); cont.innerHTML = '<button class="btn-neon" onclick="render(db.products)">همه آثار</button>';
-            categories.forEach(cat => { const b = document.createElement('button'); b.className = 'btn-neon'; b.innerText = cat; b.onclick = () => render(db.products.filter(p => p.cat === cat)); cont.appendChild(b); });
-        }
-        function doSearch() { const v = document.getElementById('searchInput').value.toLowerCase(); render(db.products.filter(p => p.name.toLowerCase().includes(v))); }
-        init();
-    </script>
+    function setCat(c) { currentCat = c; renderCats(); render(); }
+    function setView(v) { 
+        currentView = v; 
+        document.getElementById('btnGrid').classList.toggle('active', v==='grid');
+        document.getElementById('btnList').classList.toggle('active', v==='list');
+        render(); 
+    }
+
+    function render() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const container = document.getElementById('productContainer');
+        container.className = currentView === 'grid' ? 'grid-view' : 'list-view';
+        
+        const filtered = db.products.filter(p => 
+            (currentCat === 'همه' || p.cat === currentCat) && 
+            (p.name.toLowerCase().includes(search))
+        );
+
+        container.innerHTML = filtered.map(p => {
+            const msg = encodeURIComponent(`سلام، درخواست خرید اثر: ${p.name} به قیمت ${p.price}`);
+            return `
+                <div class="product-card">
+                    <div class="img-container"><img src="${p.img}"></div>
+                    <div class="info">
+                        <h4>${p.name}</h4>
+                        <span class="price">${p.price} تومان</span>
+                    </div>
+                    <a href="https://t.me/${TELEGRAM_ID}?text=${msg}" target="_blank" class="order-link">سفارش در تلگرام</a>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // بخش مدیریت
+    function openAdmin() { if(prompt("رمز:")==="6868") document.getElementById('adminModal').style.display="block"; }
+    function closeAdmin() { document.getElementById('adminModal').style.display="none"; }
+    async function saveProduct() {
+        // مشابه کدهای قبلی برای آپلود در ImgBB و ذخیره در JSONBin
+        alert("در نسخه نمایشی فعال است - نیاز به API Key ایمج بی بی دارد");
+    }
+
+    init();
+</script>
 </body>
 </html>
