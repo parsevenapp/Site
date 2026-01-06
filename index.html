@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="TQSSOMKuooSA2bkkvN97MYviR15vqa7t6Fhsc5biqIE" />
     <title>گالری هنری نئون</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,6 +13,10 @@
     </div>
     <div class="control-bar">
         <input type="text" id="searchInput" placeholder="جستجوی نام اثر..." onkeyup="doSearch()">
+        <div class="view-btns" style="margin-top:10px;">
+            <button class="btn-neon" style="width:auto; padding:5px 15px;" onclick="setView('grid')">🔲 شبکه</button>
+            <button class="btn-neon" style="width:auto; padding:5px 15px;" onclick="setView('list')">≡ لیست</button>
+        </div>
     </div>
     <div class="main-wrapper">
         <aside class="sidebar-nav">
@@ -27,23 +32,19 @@
             <h2 style="color:#0ff; margin-bottom:15px;">افزودن اثر جدید</h2>
             <input type="text" id="p-name" placeholder="نام اثر">
             <input type="text" id="p-price" placeholder="قیمت (تومان)">
-            <textarea id="p-specs" placeholder="توضیحات و مشخصات اثر..."></textarea>
-            <input type="text" id="p-cat" placeholder="دسته (مثلاً: تذهیب)">
-            <div class="upload-section">
-                <button class="btn-neon" onclick="document.getElementById('p-file1').click()">عکس اصلی</button>
-                <button class="btn-neon" onclick="document.getElementById('p-file2').click()">عکس دوم</button>
-                <button class="btn-neon" onclick="document.getElementById('p-file3').click()">عکس سوم</button>
-                <input type="file" id="p-file1" style="display:none" accept="image/*">
-                <input type="file" id="p-file2" style="display:none" accept="image/*">
-                <input type="file" id="p-file3" style="display:none" accept="image/*">
-                <p id="uploadStatus" style="font-size:12px; margin-top:5px; color:#0ff;"></p>
-            </div>
-            <button class="btn-neon" style="background:#b026ff; border-color:#b026ff; color:#fff; width:100%; margin-top:10px;" onclick="submitProduct()">🚀 انتشار آنلاین اثر</button>
+            <textarea id="p-specs" placeholder="توضیحات اثر..."></textarea>
+            <input type="text" id="p-cat" placeholder="دسته">
+            <input type="file" id="p-file1">
+            <button class="btn-neon" style="background:#b026ff; color:#fff; width:100%; margin-top:10px;" onclick="submitProduct()">🚀 انتشار آنلاین</button>
         </div>
     </div>
     <footer class="neon-footer">
-        <div id="f-addr">آدرس: در حال دریافت...</div>
-        <div id="f-phone">تلفن: در حال دریافت...</div>
+        <div id="f-addr">آدرس: -</div>
+        <div id="f-phone">تلفن: -</div>
+        <div id="f-social" style="margin-top:15px;">
+            <a id="link-tg" href="#" target="_blank" style="color:#0ff; text-decoration:none; margin:0 10px;">تلگرام</a>
+            <a id="link-ig" href="#" target="_blank" style="color:#b026ff; text-decoration:none; margin:0 10px;">اینستاگرام</a>
+        </div>
         <button onclick="adminPanel()" class="admin-btn">⚙️ مدیریت</button>
     </footer>
     <script src="script.js"></script>
