@@ -4,74 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="TQSSOMKuooSA2bkkvN97MYviR15vqa7t6Fhsc5biqIE" />
-    <title>گالری آثار هنری</title>
+    <title>گالری هنری</title>
     <style>
+        /* بازگشت به استایل نئونی اصلی */
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-        body { background: #fdfdfd; font-family: 'Tahoma', sans-serif; color: #333; direction: rtl; overflow-x: hidden; }
-        header { background: #fff; border-bottom: 1px solid #eee; padding: 30px; text-align: center; }
-        header h1 { font-size: 24px; color: #1a1a1a; letter-spacing: 1px; }
-        .control-bar { padding: 20px; text-align: center; background: #f9f9f9; }
-        #searchInput { width: 90%; max-width: 400px; padding: 12px 20px; border: 1px solid #ddd; border-radius: 4px; background: #fff; color: #333; }
-        .main-wrapper { display: flex; padding: 20px; gap: 30px; max-width: 1400px; margin: 0 auto; }
-        .sidebar-nav { width: 200px; display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
-        .cat-btn { width: 100%; padding: 10px; background: none; border: none; border-bottom: 1px solid #f0f0f0; color: #666; cursor: pointer; text-align: right; transition: 0.2s; font-size: 14px; }
-        .cat-btn:hover { color: #000; background: #f5f5f5; }
-        .grid-display { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: #fff; border: 1px solid #eee; transition: 0.3s; cursor: pointer; position: relative; }
-        .product-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .product-card.active { transform: translateY(-5px); border-color: #000; }
-        .image-slider { position: relative; width: 100%; height: 280px; background: #f5f5f5; overflow: hidden; }
+        body { background: #050505; font-family: 'Tahoma', sans-serif; color: #fff; direction: rtl; overflow-x: hidden; }
+        
+        .header-box { text-align: center; padding: 30px; border-bottom: 2px solid #0ff; box-shadow: 0 0 15px #0ff; }
+        .flicker-text { font-size: 2rem; text-shadow: 0 0 10px #0ff; animation: flicker 1.5s infinite alternate; color: #0ff; }
+        @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+        .control-bar { padding: 20px; text-align: center; }
+        #searchInput { width: 90%; max-width: 400px; padding: 12px; background: transparent; border: 2px solid #b026ff; border-radius: 25px; color: #fff; text-align: center; box-shadow: 0 0 10px #b026ff; }
+
+        .main-wrapper { display: flex; padding: 20px; gap: 20px; }
+        .sidebar-nav { width: 220px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+        
+        .btn-neon { width: 100%; padding: 12px; background: #111; border: 1px solid #0ff; color: #0ff; cursor: pointer; font-weight: bold; transition: 0.3s; text-align: center; }
+        .btn-neon:hover { background: #0ff; color: #000; box-shadow: 0 0 15px #0ff; }
+
+        .grid-display { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+        .product-card { background: #111; border: 1px solid #333; border-radius: 10px; overflow: hidden; transition: 0.4s; cursor: pointer; position: relative; }
+        .product-card.active { transform: scale(1.05); z-index: 10; border-color: #b026ff; box-shadow: 0 0 30px #b026ff; }
+
+        .image-slider { position: relative; width: 100%; height: 230px; background: #222; }
         .image-slider img { width: 100%; height: 100%; object-fit: cover; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 35px; height: 35px; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .next-btn { left: 0; } .prev-btn { right: 0; }
-        .product-info-summary { padding: 15px; text-align: center; border-top: 1px solid #f9f9f9; }
-        .product-info-summary h3 { font-size: 16px; margin-bottom: 8px; color: #222; }
-        .price-tag { color: #888; font-size: 14px; }
-        .product-details { max-height: 0; overflow: hidden; transition: 0.4s; background: #fafafa; padding: 0 15px; border-top: 0 solid #eee; }
-        .product-card.active .product-details { max-height: 500px; padding: 15px; border-top-width: 1px; }
-        .del-btn-fix { background: #333; color: #fff; padding: 10px; width: 100%; margin-top: 15px; cursor: pointer; border: none; font-size: 12px; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); }
-        .modal-content { background: #fff; margin: 50px auto; padding: 30px; border: 1px solid #000; width: 90%; max-width: 450px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; }
-        .admin-action-btn { background: #000; color: #fff; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; }
-        .close { float: left; font-size: 24px; cursor: pointer; }
-        footer { border-top: 1px solid #eee; padding: 50px 20px; text-align: center; background: #fff; margin-top: 50px; font-size: 14px; color: #777; }
-        .admin-btn { background: none; border: none; color: #ccc; margin-top: 20px; cursor: pointer; font-size: 11px; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,255,255,0.6); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; }
+        .next-btn { left: 10px; } .prev-btn { right: 10px; }
+
+        .product-info-summary { padding: 15px; text-align: center; }
+        .price-tag { color: #0ff; font-weight: bold; font-size: 1.2rem; }
+
+        .product-details { max-height: 0; overflow: hidden; transition: 0.4s; background: #0a0a0a; padding: 0 15px; }
+        .product-card.active .product-details { max-height: 500px; padding: 15px; border-top: 1px solid #333; }
+        
+        .del-btn-fix { background: #ff4444 !important; color: #fff !important; padding: 12px; width: 100%; margin-top: 15px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+        .modal-content { background: #111; margin: 5% auto; padding: 20px; border: 2px solid #0ff; width: 90%; max-width: 420px; border-radius: 15px; }
+        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #050505; border: 1px solid #333; color: #fff; }
+
+        footer { border-top: 1px solid #333; padding: 40px; text-align: center; margin-top: 50px; }
+        .admin-btn { background: transparent; border: none; color: #222; margin-top: 20px; cursor: pointer; font-size: 10px; }
+
         @media (max-width: 768px) {
             .main-wrapper { flex-direction: column; }
-            .sidebar-nav { width: 100%; flex-direction: row; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-            .cat-btn { white-space: nowrap; border-bottom: none; border-left: 1px solid #eee; }
+            .sidebar-nav { width: 100%; flex-direction: row; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+            .btn-neon { width: auto; padding: 10px 20px; }
         }
     </style>
 </head>
 <body>
-    <header><h1>گالری آثار هنری</h1></header>
-    <div class="control-bar"><input type="text" id="searchInput" placeholder="جستجوی در آثار..." onkeyup="doSearch()"></div>
+    <div class="header-box"><h1 class="flicker-text">گالری آثار هنری</h1></div>
+    <div class="control-bar"><input type="text" id="searchInput" placeholder="جستجو در گالری..." onkeyup="doSearch()"></div>
+    
     <div class="main-wrapper">
         <aside class="sidebar-nav"><div id="cat-buttons"></div></aside>
         <main class="content-area"><div id="product-container" class="grid-display"></div></main>
     </div>
+
     <div id="adminModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeAdmin()">&times;</span>
-            <h2 style="margin-bottom:20px;">افزودن محصول جدید</h2>
+            <span style="color:#f00; float:left; font-size:30px; cursor:pointer;" onclick="closeAdmin()">&times;</span>
+            <h2 style="color:#0ff; margin-bottom:15px;">افزودن اثر جدید</h2>
             <input type="text" id="p-name" placeholder="نام اثر">
             <input type="text" id="p-price" placeholder="قیمت (تومان)">
-            <textarea id="p-specs" placeholder="توضیحات فنی..."></textarea>
-            <input type="text" id="p-cat" placeholder="دسته هنری">
-            <div style="display: flex; gap: 5px; margin-bottom: 15px;">
-                <button type="button" onclick="document.getElementById('p-file1').click()" style="flex:1; padding:10px; font-size:11px; border:1px solid #ddd; background:#fff;">عکس ۱</button>
-                <button type="button" onclick="document.getElementById('p-file2').click()" style="flex:1; padding:10px; font-size:11px; border:1px solid #ddd; background:#fff;">عکس ۲</button>
-                <button type="button" onclick="document.getElementById('p-file3').click()" style="flex:1; padding:10px; font-size:11px; border:1px solid #ddd; background:#fff;">عکس ۳</button>
+            <textarea id="p-specs" placeholder="مشخصات اثر..."></textarea>
+            <input type="text" id="p-cat" placeholder="دسته (تذهیب، مینیاتور...)">
+            <div style="display:flex; gap:5px; margin-bottom:10px;">
+                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file1').click()">عکس ۱</button>
+                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file2').click()">عکس ۲</button>
+                <button class="btn-neon" style="font-size:10px;" onclick="document.getElementById('p-file3').click()">عکس ۳</button>
             </div>
             <input type="file" id="p-file1" style="display:none"><input type="file" id="p-file2" style="display:none"><input type="file" id="p-file3" style="display:none">
-            <p id="uploadStatus" style="font-size:12px; margin-bottom:10px; color:blue;"></p>
-            <button class="admin-action-btn" onclick="submitProduct()">تایید و ذخیره در سایت</button>
+            <p id="uploadStatus" style="font-size:12px; color:#0ff;"></p>
+            <button class="btn-neon" style="background:#b026ff; color:#fff; border:none; margin-top:10px;" onclick="submitProduct()">انتشار در سایت</button>
         </div>
     </div>
+
     <footer>
         <div id="f-addr"></div><div id="f-phone" style="margin-top:10px;"></div>
-        <button onclick="adminPanel()" class="admin-btn">پنل مدیریت</button>
+        <button onclick="adminPanel()" class="admin-btn">⚙️</button>
     </footer>
 
     <script>
@@ -98,18 +111,17 @@
             list.forEach((item, index) => {
                 const card = document.createElement('div'); card.className = 'product-card';
                 const imgs = [item.img, item.img2, item.img3].filter(s => s); let cur = 0;
-                card.innerHTML = `<div class="image-slider">${imgs.length > 1 ? `<button class="slider-btn next-btn">‹</button>` : ''}<img src="${imgs[0]}" class="main-img">${imgs.length > 1 ? `<button class="slider-btn prev-btn">›</button>` : ''}</div><div class="product-info-summary"><h3>${item.name}</h3><span class="price-tag">${item.price} تومان</span></div><div class="product-details"><p><b>توضیحات:</b> ${item.specs || '-'}</p><p><b>دسته:</b> ${item.cat}</p>${window.isAdmin ? `<button onclick="deleteProduct(${index})" class="del-btn-fix">حذف اثر</button>` : ''}</div>`;
+                card.innerHTML = `<div class="image-slider">${imgs.length > 1 ? `<button class="slider-btn next-btn">◀</button>` : ''}<img src="${imgs[0]}" class="main-img">${imgs.length > 1 ? `<button class="slider-btn prev-btn">▶</button>` : ''}</div><div class="product-info-summary"><h3>${item.name}</h3><span class="price-tag">${item.price} تومان</span></div><div class="product-details"><p>توضیحات: ${item.specs || '-'}</p><p>دسته: ${item.cat}</p>${window.isAdmin ? `<button onclick="deleteProduct(${index})" class="del-btn-fix">🗑️ حذف</button>` : ''}</div>`;
                 const imgTag = card.querySelector('.main-img');
                 card.querySelectorAll('.slider-btn').forEach(b => {
                     b.onclick = (e) => { e.stopPropagation(); cur = b.classList.contains('next-btn') ? (cur + 1) % imgs.length : (cur - 1 + imgs.length) % imgs.length; imgTag.src = imgs[cur]; };
                 });
-                card.onclick = () => { document.querySelectorAll('.product-card').forEach(c => c !== card && c.classList.remove('active')); card.classList.toggle('active'); };
-                container.appendChild(card);
+                card.onclick = () => card.classList.toggle('active'); container.appendChild(card);
             });
         }
         async function adminPanel() {
-            const p = prompt("رمز ورود:"); if (p !== "6868") return; window.isAdmin = true;
-            const c = prompt("1: کالا | 2: اطلاعات تماس");
+            const p = prompt("رمز:"); if (p !== "6868") return; window.isAdmin = true;
+            const c = prompt("1: کالا | 2: فوتر");
             if(c === "1") document.getElementById('adminModal').style.display = "block";
             else if(c === "2") { db.footer.addr = prompt("آدرس:", db.footer.addr); db.footer.phone = prompt("تلفن:", db.footer.phone); await saveData(); updateFooterUI(); }
         }
@@ -117,18 +129,18 @@
         async function submitProduct() {
             const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, s = document.getElementById('p-specs').value, c = document.getElementById('p-cat').value, files = [document.getElementById('p-file1').files[0], document.getElementById('p-file2').files[0], document.getElementById('p-file3').files[0]];
             if(!n || !p || !files[0]) return alert("نام، قیمت و عکس اصلی الزامی است");
-            document.getElementById('uploadStatus').innerText = "در حال بارگذاری...";
+            document.getElementById('uploadStatus').innerText = "درحال آپلود تصاویر...";
             try {
                 const urls = [];
                 for (let f of files) { if (f) { const fd = new FormData(); fd.append('image', f); const r = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd }); const d = await r.json(); urls.push(d.data.url); } else urls.push(null); }
                 db.products.push({ name: n, price: p, specs: s, cat: c, img: urls[0], img2: urls[1], img3: urls[2] }); await saveData(); location.reload();
-            } catch (e) { alert("خطا"); }
+            } catch (e) { alert("خطا در آپلود"); }
         }
         async function deleteProduct(i) { if(confirm("حذف شود؟")) { db.products.splice(i, 1); await saveData(); render(); } }
-        function updateFooterUI() { document.getElementById('f-addr').innerText = "آدرس گالری: " + (db.footer.addr || "ثبت نشده"); document.getElementById('f-phone').innerText = "شماره تماس: " + (db.footer.phone || "ثبت نشده"); }
+        function updateFooterUI() { document.getElementById('f-addr').innerText = "آدرس: " + (db.footer.addr || "-"); document.getElementById('f-phone').innerText = "تلفن: " + (db.footer.phone || "-"); }
         function createCategoryButtons() {
-            const cont = document.getElementById('cat-buttons'); cont.innerHTML = '<button class="cat-btn" onclick="render(db.products)">همه آثار</button>';
-            categories.forEach(cat => { const b = document.createElement('button'); b.className = 'cat-btn'; b.innerText = cat; b.onclick = () => render(db.products.filter(p => p.cat === cat)); cont.appendChild(b); });
+            const cont = document.getElementById('cat-buttons'); cont.innerHTML = '<button class="btn-neon" onclick="render(db.products)">همه آثار</button>';
+            categories.forEach(cat => { const b = document.createElement('button'); b.className = 'btn-neon'; b.innerText = cat; b.onclick = () => render(db.products.filter(p => p.cat === cat)); cont.appendChild(b); });
         }
         function doSearch() { const v = document.getElementById('searchInput').value.toLowerCase(); render(db.products.filter(p => p.name.toLowerCase().includes(v))); }
         init();
